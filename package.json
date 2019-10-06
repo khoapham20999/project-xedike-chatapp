@@ -17,5 +17,13 @@
   },
   "devDependencies": {},
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khoapham20999/project-xedike-chatapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/khoapham20999/project-xedike-chatapp/issues"
+  },
+  "homepage": "https://github.com/khoapham20999/project-xedike-chatapp#readme",
   "description": ""
 }

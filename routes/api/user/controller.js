@@ -2,13 +2,16 @@ const { User } = require("../../../models/User");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const {
+  validatePostInput
+} = require("../../../validation/user/userValidation");
 
 // all of your determinations will be paid
 
 module.exports.getUser = (req, res, next) => {
   User.find()
     .then(user => {
-      console.log(user);
+      // console.log(user);
       res.json(user).status(200);
     })
     .catch(err => {
@@ -16,8 +19,12 @@ module.exports.getUser = (req, res, next) => {
     });
 };
 
-module.exports.createUser = (req, res, next) => {
+module.exports.createUser = async (req, res, next) => {
   const { email, password, dob, usertype, phone } = req.body;
+  const { isValid, errors } = await validatePostInput(req.body);
+  console.log(isValid);
+  console.log(errors);
+  if (!isValid) return res.status(400).json(errors);
   const newUser = new User({
     email,
     password,
@@ -125,11 +132,11 @@ module.exports.login = (req, res, next) => {
           email: user.email,
           usertype: user.usertype
         };
-        jwt.sign(payload, "khoapham", { expiresIn: 3600 }, (err, encode) => {
+        jwt.sign(payload, "khoapham", { expiresIn: 3600 }, (err, token) => {
           if (err) return res.json(err);
           res.status(200).json({
             success: true,
-            encode: encode
+            token: token
           });
         });
       });
